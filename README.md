@@ -1,1 +1,0 @@
-# Swiggy-GC
