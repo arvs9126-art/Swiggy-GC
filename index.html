@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Add Voucher</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Voucher">
+<style>
+@font-face{font-family:Gilroy;font-weight:400;font-style:normal;font-display:swap;src:url(Gilroy-Regular.ttf) format("truetype")}
+@font-face{font-family:Gilroy;font-weight:600;font-style:normal;font-display:swap;src:url(Gilroy-SemiBold.ttf) format("truetype")}
+@font-face{font-family:Gilroy;font-weight:700;font-style:normal;font-display:swap;src:url(Gilroy-Bold.ttf) format("truetype")}
+</style>
+
+<meta name="theme-color" content="#efeef3">
+<meta name="color-scheme" content="light">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{--bg:#efeef3;--ink:#1b1e24;--grey:#61636b;--ph:#8e8f91;--line:#d9dadc;--green:#1ba672;--orange:#fe5200;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);font-size:calc(min(100vw,430px)/39.3);height:100%;-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{height:100%;background:var(--bg);color:var(--ink);font-family:Gilroy,"Segoe UI",Roboto,system-ui,sans-serif;
+  -webkit-user-select:none;user-select:none;overscroll-behavior:none;overflow:hidden}
+#app{max-width:43rem;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;position:relative}
+header{height:4.84rem;margin:0 1.6rem;border-bottom:1px solid #e3e2e7;display:flex;align-items:flex-start;flex:none}
+.back{width:2.4rem;height:2.4rem;margin:1.1rem 0 0 .65rem;display:block}
+.back svg{width:100%;height:100%;display:block}
+.ttl{margin-left:1.9rem;padding-top:.3rem}
+.ttl h1{font-size:1.65rem;line-height:2.2rem;font-weight:600;letter-spacing:-.01em}
+.ttl p{font-size:1.3rem;line-height:1.8rem;color:#7d7e84;font-weight:400}
+.card{background:#fff;margin:0 1.67rem;border-radius:2.2rem;box-shadow:0 .4rem 1.6rem rgba(40,40,70,.07)}
+.form{margin-top:1.7rem;padding:1.68rem 1.68rem 2.44rem}
+.field{position:relative;height:5.53rem;margin-bottom:2.47rem}
+.field:last-child{margin-bottom:0}
+.field input{width:100%;height:100%;border:.15rem solid var(--line);border-radius:2rem;background:#fff;outline:none;
+  padding:0 1.96rem;font:500 1.45rem Gilroy,"Segoe UI",Roboto,system-ui,sans-serif;color:var(--ink);letter-spacing:-.005em;
+  transition:border-color .15s;-webkit-user-select:text;user-select:text;appearance:none;-webkit-appearance:none}
+#code{text-transform:uppercase}
+.field label{position:absolute;left:1.96rem;top:50%;transform:translateY(-50%);font-size:1.35rem;color:var(--ph);font-weight:400;
+  letter-spacing:-.01em;pointer-events:none;padding:0 .4rem;margin-left:-.4rem;background:transparent;
+  transition:top .15s,font-size .15s,color .15s,left .15s,background .15s;white-space:nowrap}
+.field input:focus{border:.2rem solid var(--orange)}
+.field input:focus+label,.field input:not(:placeholder-shown)+label{top:0;font-size:1.02rem;background:#fff;left:1.6rem;margin-left:0;padding:0 .4rem;color:#80828a}
+.field input:focus+label{color:var(--orange)}
+h2{margin:2.4rem 0 1.6rem 2.4rem;font-size:1.6rem;line-height:2.2rem;font-weight:600;letter-spacing:-.01em}
+.how{padding:2.4rem 2.4rem 2.4rem;flex:none}
+.how li{list-style:none;position:relative;padding-left:1.3rem;margin-bottom:1.6rem;font-size:1.2rem;line-height:1.71rem;color:var(--grey);white-space:nowrap;letter-spacing:-.008em}
+.how li:last-child{margin-bottom:0}
+.how li:before{content:"";position:absolute;left:.15rem;top:.78rem;width:.42rem;height:.42rem;border-radius:50%;background:var(--grey)}
+.sp{flex:1;min-height:9.7rem}
+.cta{flex:none;margin:0 1.6rem 1.6rem;height:5.8rem;border:0;border-radius:1.8rem;background:var(--green);color:#fff;
+  font:500 1.65rem Gilroy,"Segoe UI",Roboto,system-ui,sans-serif;opacity:.4;transition:opacity .15s;letter-spacing:-.005em}
+.cta.on{opacity:1}
+.cta.on:active{filter:brightness(.94)}
+#load{position:fixed;inset:0;background:#fff;display:none;z-index:5}
+#load.show{display:block}
+#load svg{position:absolute;left:50%;top:39.4%;width:14.9rem;height:14.9rem;margin:-7.45rem 0 0 -7.45rem;animation:rot 1.4s linear infinite}
+#load circle{fill:none;stroke-width:9}
+#load .tr{stroke:#c8f2e1}
+#load .ar{stroke:var(--green);stroke-linecap:butt;stroke-dasharray:1,200;stroke-dashoffset:0;animation:dash 1.4s ease-in-out infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes dash{0%{stroke-dasharray:2,200;stroke-dashoffset:0}50%{stroke-dasharray:150,200;stroke-dashoffset:-30}100%{stroke-dasharray:150,200;stroke-dashoffset:-175}}
+#dim{position:fixed;inset:0;background:rgba(0,2,25,.5);opacity:0;pointer-events:none;transition:opacity .15s;z-index:6}
+#dim.show{opacity:1;pointer-events:auto}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-width:43rem;margin:0 auto;background:#f1f0f5;border-radius:2.8rem 2.8rem 0 0;
+  padding:2.4rem 1.8rem calc(1.6rem + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .16s ease-out;z-index:7}
+#sheet.show{transform:none}
+#sheet p{font-size:1.75rem;line-height:2.4rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:3.2rem}
+#sheet button{width:100%;height:5.2rem;border:0;border-radius:1.4rem;background:var(--orange);color:#fff;font:500 1.65rem Gilroy,"Segoe UI",Roboto,system-ui,sans-serif}
+#sheet button:active{filter:brightness(.92)}
+@media (prefers-reduced-motion:reduce){#load svg{animation-duration:3s}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <span class="back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="#1b1e24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10.5 5.5L4 12l6.5 6.5"/></svg></span>
+    <div class="ttl"><h1>Add Voucher</h1><p>Balance: ₹250</p></div>
+  </header>
+
+  <section class="card form">
+    <div class="field"><input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="19" placeholder=" " enterkeyhint="next"><label for="code">Enter 16 digit Code</label></div>
+    <div class="field"><input id="pin" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="6" placeholder=" " enterkeyhint="go"><label for="pin">Enter PIN</label></div>
+  </section>
+
+  <h2>How it works</h2>
+  <section class="card how"><ul>
+    <li>Enter the Swiggy Money 16 digit voucher code that<br>you have received on your registered e-mail id /<br>phone number.</li>
+    <li>Once redeemed, you can use it for Food, Instamart,<br>Genie, DineOut etc.</li>
+    <li>Any balance in Swiggy Money account, cannot be<br>transferred to a bank account or to another Swiggy<br>Money account as per RBI guidelines.</li>
+    <li>Any balance in Swiggy Money account cannot be<br>used to purchase any Gift vouchers.</li>
+    <li>Swiggy Money balance is powered by Razorpay gift<br>cards and carries a validity of 1 year from the date of<br>credit on Swiggy.</li>
+  </ul></section>
+
+  <div class="sp"></div>
+  <button class="cta" id="cta" type="button">Add Gift Voucher</button>
+</div>
+
+<div id="load"><svg viewBox="0 0 100 100"><circle class="tr" cx="50" cy="50" r="45"/><circle class="ar" cx="50" cy="50" r="45" pathLength="283"/></svg></div>
+<div id="dim"></div>
+<div id="sheet" role="alertdialog"><p>Invalid voucher code. Please re-enter your voucher details.</p><button id="ok" type="button">Okay</button></div>
+
+<script>
+(function(){
+  var code=document.getElementById('code'),pin=document.getElementById('pin'),cta=document.getElementById('cta'),
+      load=document.getElementById('load'),dim=document.getElementById('dim'),sheet=document.getElementById('sheet'),ok=document.getElementById('ok');
+  function check(){
+    var c=code.value.replace(/[^a-z0-9]/gi,'').length,p=pin.value.length;
+    cta.classList.toggle('on',c>=16&&p>=4);
+  }
+  code.addEventListener('input',function(){
+    var raw=code.value.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,16);
+    code.value=raw.replace(/(.{4})(?=.)/g,'$1-');
+    check()
+  });
+  pin.addEventListener('input',function(){pin.value=pin.value.replace(/\D/g,'').slice(0,6);check()});
+  code.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();pin.focus()}});
+  pin.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submit()}});
+  cta.addEventListener('click',submit);
+  var busy=false;
+  function submit(){
+    if(busy||!cta.classList.contains('on'))return;
+    busy=true;document.activeElement&&document.activeElement.blur();
+    load.classList.add('show');
+    setTimeout(function(){
+      code.value='';pin.value='';check();
+      load.classList.remove('show');dim.classList.add('show');sheet.classList.add('show');
+    },450);
+  }
+  ok.addEventListener('click',function(){
+    dim.classList.remove('show');sheet.classList.remove('show');
+    code.value='';pin.value='';check();busy=false;
+  });
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
+})();
+</script>
+</body>
+</html>
