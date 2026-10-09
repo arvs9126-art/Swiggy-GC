@@ -1,6 +1,6 @@
 {
   "name": "Add Voucher",
-  "short_name": "Voucher",
+  "short_name": "Swiggy",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
